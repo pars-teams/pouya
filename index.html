@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پویا دهقان‌نیا</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --neon-1: #00f0ff;
+    --neon-2: #ff00e5;
+    --neon-3: #7b2ff7;
+    --bg: #05010f;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--bg);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* ===== پس‌زمینه گرید و نور ===== */
+  .grid-bg {
+    position: fixed;
+    inset: -50%;
+    background-image:
+      linear-gradient(rgba(0, 240, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 0, 229, 0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(500px) rotateX(60deg);
+    animation: gridMove 8s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+  @keyframes gridMove {
+    from { background-position: 0 0; }
+    to { background-position: 0 60px; }
+  }
+
+  .glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.55;
+    z-index: 0;
+    pointer-events: none;
+    animation: float 10s ease-in-out infinite;
+  }
+  .glow.a { width: 420px; height: 420px; background: var(--neon-1); top: -120px; right: -100px; }
+  .glow.b { width: 380px; height: 380px; background: var(--neon-2); bottom: -120px; left: -100px; animation-delay: -4s; }
+  .glow.c { width: 300px; height: 300px; background: var(--neon-3); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -2s; }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -30px) scale(1.1); }
+  }
+
+  /* ===== هدر بالای صفحه ===== */
+  .top-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding: 18px 16px;
+  }
+  .banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 32px;
+    border-radius: 999px;
+    background: rgba(10, 5, 30, 0.7);
+    border: 1px solid rgba(255, 0, 229, 0.45);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 25px rgba(255, 0, 229, 0.35), inset 0 0 20px rgba(0, 240, 255, 0.1);
+    animation: bannerPulse 3s ease-in-out infinite;
+    max-width: 92vw;
+  }
+  @keyframes bannerPulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(255, 0, 229, 0.35), inset 0 0 20px rgba(0, 240, 255, 0.1); }
+    50% { box-shadow: 0 0 45px rgba(255, 0, 229, 0.7), inset 0 0 30px rgba(0, 240, 255, 0.2); }
+  }
+  .banner-inner .emoji { font-size: 1.4rem; }
+  .banner-inner span.text {
+    font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--neon-1), var(--neon-2), var(--neon-1));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+
+  /* ===== کارت اصلی ===== */
+  .card-wrap {
+    position: relative;
+    z-index: 5;
+    padding: 20px;
+    perspective: 1000px;
+    margin-top: 60px;
+  }
+  .card {
+    position: relative;
+    padding: 60px 50px;
+    border-radius: 28px;
+    background: rgba(12, 6, 32, 0.55);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    backdrop-filter: blur(18px);
+    box-shadow:
+      0 0 60px rgba(123, 47, 247, 0.35),
+      0 0 120px rgba(0, 240, 255, 0.15),
+      inset 0 0 40px rgba(255, 0, 229, 0.06);
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.15s ease-out;
+    transform-style: preserve-3d;
+  }
+  /* بردر نئونی چرخان */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 30px;
+    padding: 2px;
+    background: conic-gradient(from 0deg, var(--neon-1), var(--neon-2), var(--neon-3), var(--neon-1));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: spin 4s linear infinite;
+    opacity: 0.9;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    padding: 6px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    color: var(--neon-1);
+    margin-bottom: 35px;
+    background: rgba(0, 240, 255, 0.06);
+  }
+
+  /* اسم بزرگ وسط */
+  .name {
+    font-size: clamp(2.8rem, 7.5vw, 5rem);
+    font-weight: 900;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #fff 10%, var(--neon-1) 45%, var(--neon-2) 90%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+    filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.45));
+    margin-bottom: 30px;
+  }
+
+  .divider {
+    width: 80%;
+    height: 1px;
+    margin: 0 auto 25px;
+    background: linear-gradient(90deg, transparent, var(--neon-1), var(--neon-2), transparent);
+    box-shadow: 0 0 12px var(--neon-1);
+  }
+
+  .role {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 700;
+    color: #cfd8ff;
+  }
+  .role .hl {
+    color: var(--neon-2);
+    text-shadow: 0 0 14px rgba(255, 0, 229, 0.7);
+  }
+
+  /* ===== فوتر ===== */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    text-align: center;
+    padding: 16px;
+    font-size: 0.8rem;
+    color: rgba(180, 190, 230, 0.55);
+    letter-spacing: 1px;
+  }
+
+  /* ===== ذرات شناور ===== */
+  .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--neon-1);
+    box-shadow: 0 0 10px var(--neon-1);
+    animation: rise linear infinite;
+    opacity: 0;
+  }
+  @keyframes rise {
+    0% { transform: translateY(100vh) scale(0.4); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ریسپانسیو برای موبایل */
+  @media (max-width: 480px) {
+    .card { padding: 45px 25px; border-radius: 22px; margin-top: 80px; }
+    .banner-inner { padding: 10px 15px; gap: 8px; }
+    .name { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="glow a"></div>
+  <div class="glow b"></div>
+  <div class="glow c"></div>
+  <div class="particles" id="particles"></div>
+
+  <!-- بنر بالای صفحه -->
+  <header class="top-banner">
+    <div class="banner-inner">
+      <span class="emoji">😤</span>
+      <span class="text">از مدرسه و تکلیف خوشم نمیاد</span>
+      <span class="emoji">📚</span>
+    </div>
+  </header>
+
+  <!-- کارت اصلی -->
+  <main class="card-wrap">
+    <div class="card" id="card">
+      <div class="tag">✦ طراحی سایت ✦</div>
+
+      <div class="name">پویا دهقان‌نیا</div>
+
+      <div class="divider"></div>
+
+      <p class="role">ساخته‌شده با <span class="hl">عشق</span> و کمی <span class="hl">بی‌حوصلگی از درس</span></p>
+    </div>
+  </main>
+
+  <footer class="footer">© پویا دهقان‌نیا</footer>
+
+<script>
+  // ساخت ذرات شناور
+  const container = document.getElementById('particles');
+  const colors = ['#00f0ff', '#ff00e5', '#7b2ff7'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    const dur = 6 + Math.random() * 10;
+    p.style.animationDuration = dur + 's';
+    p.style.animationDelay = -Math.random() * dur + 's';
+    const c = colors[Math.floor(Math.random() * colors.length)];
+    p.style.background = c;
+    p.style.boxShadow = `0 0 10px ${c}`;
+    const size = 2 + Math.random() * 4;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    container.appendChild(p);
+  }
+
+  // افکت تیلت سه‌بعدی کارت با موس
+  const card = document.getElementById('card');
+  const wrap = document.querySelector('.card-wrap');
+  wrap.addEventListener('mousemove', (e) => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    card.style.transform = `rotateY(${x / 25}deg) rotateX(${-y / 25}deg)`;
+  });
+  wrap.addEventListener('mouseleave', () => {
+    card.style.transform = 'rotateY(0) rotateX(0)';
+  });
+</script>
+</body>
+</html>
